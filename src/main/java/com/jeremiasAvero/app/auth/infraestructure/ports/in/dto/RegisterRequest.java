@@ -1,5 +1,8 @@
 package com.jeremiasAvero.app.auth.infraestructure.ports.in.dto;
 
-public record RegisterRequest(String email, String password) {
+import jakarta.validation.constraints.NotNull;
 
+public record RegisterRequest(
+		@NotNull String email, 
+		@NotNull String password) {
 }

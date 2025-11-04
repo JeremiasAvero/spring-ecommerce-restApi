@@ -3,6 +3,9 @@ package com.jeremiasAvero.app.products.application;
 import com.jeremiasAvero.app.products.application.exception.ProductNotFoundException;
 import com.jeremiasAvero.app.products.domain.ProductEntity;
 import com.jeremiasAvero.app.products.domain.ProductRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +57,10 @@ public class ProductService {
         }
         productRepository.deleteById(id);
     }
+   @Transactional(readOnly = true)
+	public Page<ProductEntity> findAllPageable(Pageable pageable) {
+	   return productRepository.findAllPageable(pageable); // <- OK
+   }
 
 
 }

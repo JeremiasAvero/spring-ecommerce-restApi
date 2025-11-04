@@ -6,6 +6,11 @@ import com.jeremiasAvero.app.products.domain.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
+
+@Component
 public class ProductRepositoryImpl implements ProductRepository {
     private final JpaProductRepository repository;
 
@@ -38,4 +43,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+	@Override
+	public Page<ProductEntity> findAllPageable(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
 }

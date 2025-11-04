@@ -4,6 +4,9 @@ import com.jeremiasAvero.app.auth.application.AuthService;
 import com.jeremiasAvero.app.auth.infraestructure.ports.in.dto.AuthResponse;
 import com.jeremiasAvero.app.auth.infraestructure.ports.in.dto.LoginRequest;
 import com.jeremiasAvero.app.auth.infraestructure.ports.in.dto.RegisterRequest;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +24,8 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest req) {
+  public ResponseEntity<AuthResponse> register(@Valid  @RequestBody RegisterRequest req) {
+	 
     String token = auth.register(req);
     return ResponseEntity.ok(new AuthResponse(token));
   }

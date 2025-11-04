@@ -1,8 +1,8 @@
 package com.jeremiasAvero.app.auth.application;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,10 +17,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-	private final JwtAuthFilter jwtFilter;
+	  private final JWTAuthFilter jwtFilter;
 	  private final AppUserDetailsService uds;
+	  
+	  public SecurityConfig(JWTAuthFilter jwtFilter, AppUserDetailsService uds) {
+		this.jwtFilter = jwtFilter;
+		this.uds = uds;
+	  }
 	  
 	  @Bean
 	  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,10 +32,30 @@ public class SecurityConfig {
 	      .csrf(csrf -> csrf.disable())
 	      .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	      .authorizeHttpRequests(auth -> auth
-	          .requestMatchers("/auth/**", "/actuator/health").permitAll()
-	          .anyRequest().authenticated()
+	          .requestMatchers(
+					  "/auth/**", "/actuator/health").permitAll()
+				  .requestMatchers(HttpMethod.GET,
+						  "/api/products/**",
+						  "/api/categories/**",
+						  "/api/brands/**"
+				  ).permitAll()
+
+				  .requestMatchers(
+						  "/api/cart/**",           
+						  "/api/orders/**",       
+						  "/api/profile/**"  
+				  ).hasAnyRole("USER","ADMIN")
+
+				  .requestMatchers(
+						  "/admin/**",              
+						  "/api/admin/**",       
+						  "/api/promotions/**",    
+						  "/api/inventory/**"       
+				  ).hasRole("ADMIN")
+				  .anyRequest().authenticated()
 	      )
 	      .authenticationProvider(daoAuthProvider())
+
 	      .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
 	    return http.build();
