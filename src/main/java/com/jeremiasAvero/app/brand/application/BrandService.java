@@ -1,8 +1,12 @@
 package com.jeremiasAvero.app.brand.application;
 
+import com.jeremiasAvero.app.brand.application.exception.BrandAlreadyExistsException;
 import com.jeremiasAvero.app.brand.application.exception.BrandNotFoundException;
 import com.jeremiasAvero.app.brand.domain.BrandEntity;
 import com.jeremiasAvero.app.brand.domain.BrandRepository;
+import com.jeremiasAvero.app.exception.ApiError;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +39,11 @@ public class BrandService {
     public boolean existsByName(String name) {
         return repo.existsByName(name);
     }
+
     public BrandEntity save(BrandEntity brand){
+        if(existsByName(brand.getName())){
+            throw new BrandAlreadyExistsException(brand.getName());
+        }
         return repo.save(brand);
     }
 

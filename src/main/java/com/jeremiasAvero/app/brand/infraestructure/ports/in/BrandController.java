@@ -5,7 +5,7 @@ import com.jeremiasAvero.app.brand.infraestructure.ports.in.dto.BrandResponseDto
 import com.jeremiasAvero.app.brand.infraestructure.ports.in.dto.CreateBrandRequestDto;
 import com.jeremiasAvero.app.brand.infraestructure.ports.in.dto.UpdateBrandRequestDto;
 import com.jeremiasAvero.app.brand.infraestructure.ports.in.mapper.BrandWebMapper;
-import com.jeremiasAvero.app.error.ApiError;
+import com.jeremiasAvero.app.exception.ApiError;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +34,6 @@ public class BrandController {
     @PostMapping
     public ResponseEntity<?> create(
             @Valid @RequestBody CreateBrandRequestDto req){
-
-        if(brandService.existsByName(req.getName())){
-        	ApiError error = new ApiError("BRAND_ALREADY_EXISTS");
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body( error.getMessage());
-        }
         var entity = mapper.toEntity(req);
         var saved = brandService.save(entity);
         return ResponseEntity.status(201).body(mapper.toResponseDto(saved));
@@ -48,11 +42,7 @@ public class BrandController {
     public ResponseEntity<?> update(
             @PathVariable Long id,
             @Valid @RequestBody UpdateBrandRequestDto req) {
-    	if(brandService.existsByName(req.getName())){
-        	ApiError error = new ApiError("BRAND_ALREADY_EXISTS");
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body( error.getMessage());
-        }
+
     	var existing = brandService.findById(id); // o 404 si no existe
 
         mapper.updateEntity(existing, req);

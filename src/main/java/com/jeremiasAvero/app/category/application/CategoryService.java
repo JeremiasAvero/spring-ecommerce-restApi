@@ -1,5 +1,6 @@
 package com.jeremiasAvero.app.category.application;
 
+import com.jeremiasAvero.app.category.application.exception.CategoryAlreadyExistsException;
 import com.jeremiasAvero.app.category.application.exception.CategoryNotFoundException;
 import com.jeremiasAvero.app.category.domain.CategoryEntity;
 import com.jeremiasAvero.app.category.domain.CategoryRepository;
@@ -32,7 +33,11 @@ public class CategoryService {
     public boolean existsByName(String name) {
         return repo.existsByName(name);
     }
+
     public CategoryEntity save(CategoryEntity category){
+
+        if(existsByName(category.getName())) throw new CategoryAlreadyExistsException(category.getName());
+
         return repo.save(category);
     }
 

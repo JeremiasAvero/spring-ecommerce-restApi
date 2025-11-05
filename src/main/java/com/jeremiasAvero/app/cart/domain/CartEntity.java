@@ -34,6 +34,14 @@ public class CartEntity {
 	  @OneToMany(mappedBy="cart", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
 	  private List<CartItem> items = new ArrayList<>();
 
+
+	public CartEntity(Long userId){
+		this.userId = userId;
+	}
+
+	public CartEntity(){
+
+	}
 	public UUID getId() {
 		return id;
 	}
