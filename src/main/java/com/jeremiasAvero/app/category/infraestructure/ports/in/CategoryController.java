@@ -45,7 +45,7 @@ public class CategoryController {
     public ResponseEntity<CategoryResponseDto> update(
             @PathVariable Long id,
             @Valid @RequestBody UpdateCategoryRequestDto req) {
-        var existing = categoryService.findById(id); // o 404 si no existe
+        var existing = categoryService.findById(id);
 
         mapper.updateEntity(existing, req);
         var saved = categoryService.save(existing);

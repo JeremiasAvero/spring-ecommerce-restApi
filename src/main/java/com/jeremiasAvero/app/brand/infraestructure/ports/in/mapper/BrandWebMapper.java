@@ -28,7 +28,6 @@ public class BrandWebMapper {
                 : brands.stream().filter(Objects::nonNull).map(this::toResponseDto).toList();
     }
 
-    // Domain Page -> DTO Page
     public Page<BrandResponseDto> toResponsePage(Page<BrandEntity> page) {
         return page.map(this::toResponseDto);
     }

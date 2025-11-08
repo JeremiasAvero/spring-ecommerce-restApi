@@ -50,5 +50,4 @@ public class Address {
         this.country = country;
     }
 
-    // Getters/setters
 }

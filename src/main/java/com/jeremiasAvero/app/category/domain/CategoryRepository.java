@@ -10,5 +10,4 @@ public interface CategoryRepository {
     CategoryEntity save(CategoryEntity category);
     CategoryEntity update(Long id, CategoryEntity category);
     void deleteById(Long id);
-
 }

@@ -1,6 +1,9 @@
 package com.jeremiasAvero.app.products.infraestructure.in.dto;
 
+import com.jeremiasAvero.app.image.infraestructure.ImageDto;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductResponseDto {
     private Long id;
@@ -12,6 +15,9 @@ public class ProductResponseDto {
     private IdName category;
     private IdName brand;
 
+    private List<ImageDto> images; // NUEVO
+    public java.util.List<ImageDto> getImages() { return images; }
+    public void setImages(java.util.List<ImageDto> images) { this.images = images; }
     public IdName getBrand() {
         return brand;
     }
@@ -67,6 +73,7 @@ public class ProductResponseDto {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public static class IdName {
         private Long id;

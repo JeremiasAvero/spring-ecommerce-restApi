@@ -39,6 +39,22 @@ public class SecurityConfig {
 						  "/api/categories/**",
 						  "/api/brands/**"
 				  ).permitAll()
+				  .requestMatchers(HttpMethod.POST,
+						  "/api/products/**",
+						  "/api/categories/**",
+						  "/api/brands/**"
+				  ).hasRole("ADMIN")
+				  .requestMatchers(HttpMethod.PUT,
+						  "/api/products/**",
+						  "/api/categories/**",
+						  "/api/brands/**"
+				  ).hasRole("ADMIN")
+
+				  .requestMatchers(HttpMethod.DELETE,
+						  "/api/products/**",
+						  "/api/categories/**",
+						  "/api/brands/**"
+				  ).hasRole("ADMIN")
 
 				  .requestMatchers(
 						  "/api/cart/**",           
@@ -46,12 +62,6 @@ public class SecurityConfig {
 						  "/api/profile/**"  
 				  ).hasAnyRole("USER","ADMIN")
 
-				  .requestMatchers(
-						  "/admin/**",              
-						  "/api/admin/**",       
-						  "/api/promotions/**",    
-						  "/api/inventory/**"       
-				  ).hasRole("ADMIN")
 				  .anyRequest().authenticated()
 	      )
 	      .authenticationProvider(daoAuthProvider())

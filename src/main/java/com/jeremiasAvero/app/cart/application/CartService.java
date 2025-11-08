@@ -27,28 +27,19 @@ public class CartService {
 		this.productRepo = productRepo;
 	}
 
-	//OBTENER SI YA EXISTE O CREAR SI NO HAY REGISTRO
 	public CartEntity getOrCreate(@Nullable UUID cartId, @Nullable Long userId) {
-		//hay parametro usuario ?
 		if (userId != null)
-			//si existe usuario
 			 return cartRepo
-					 //busca carrito con id del usuario
 					 .findByUserIdAndActiveTrue(userId)
-					 //si no lo encuentra lo crea con el id del parametro
 					 .orElseGet(() -> cartRepo.save(new CartEntity(userId)));
 
-		//no hay idusuario pero parametro idcarrito ?
 		if (cartId != null)
-			//lo busca
 			 return cartRepo.
-					 findById(cartId).orElseThrow(); // o crear
+					 findById(cartId).orElseThrow();
 
-		//sino crea uno nuevo sin usuario
 		return cartRepo.save(new CartEntity());
 	}
-	
-	//AGREGAR ITEM A CARRITO, SI YA EXISTE SUMA CANTIDAD
+
 	public CartEntity addItem(UUID cartId, Long productId, int qty)
 	{
 		CartEntity cart = cartRepo.findByIdForUpdate(cartId);
@@ -71,7 +62,6 @@ public class CartService {
 		return cartRepo.save(cart);
 	}
 
-	//SOLO MODIFICAR CANTIDAD DE ITEM YA EXISTENTE EN CARRITO
 	public CartEntity updateQty(UUID cartId, Long itemId, int qty) {
 		    CartEntity cart = cartRepo.findByIdForUpdate(cartId);
 		    cart.getItems().stream().filter(i -> i.getProductId().equals(itemId)).findFirst()
@@ -91,7 +81,6 @@ public class CartService {
 	    cart.setTotal(subtotal.subtract(cart.getDiscount()).add(cart.getTax()).add(cart.getShipping()));
 	}
 
-	//MERGEAR DATOS DE CARRITO DE INVITADO CON USUARIO LOGUEADO
 	public CartEntity merge(UUID guestCartId, Long userId) {
 	    CartEntity guest = cartRepo.findByIdForUpdate(guestCartId);
 	    CartEntity userCart = cartRepo.findByUserIdAndActiveTrueForUpdate(userId).orElseGet(() -> {
@@ -102,11 +91,9 @@ public class CartService {
 	    for (var gi : guest.getItems()) {
 	      addItem(userCart.getId(), gi.getProductId(), gi.getQty());
 	    }
-	    // opcional: marcar guest como CLOSED
 	    return userCart;
 	}
 
-	//ELIMINAR ITEM DE CARRITO
 	public CartEntity removeItem(UUID cartId, Long productId) {
 		CartEntity cart = cartRepo.findByIdForUpdate(cartId);
 		boolean removed = cart.getItems()

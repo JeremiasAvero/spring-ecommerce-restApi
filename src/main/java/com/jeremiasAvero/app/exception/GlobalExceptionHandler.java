@@ -29,7 +29,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     private static final Logger log =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    //CART
+
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ApiError> handleItemNotFound(ItemNotFoundException ex, HttpServletRequest req){
         return build(HttpStatus.NOT_FOUND, "CART_ITEM_NOT_FOUND", ex.getMessage(), req.getRequestURI(), null);
@@ -41,7 +41,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.CONFLICT, "NOT_ENOUGH_STOCK", ex.getMessage(), req.getRequestURI(), null);
     }
 
-    //BRAND
     @ExceptionHandler(BrandAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleBrandExists(BrandAlreadyExistsException ex, HttpServletRequest req) {
         return build(HttpStatus.CONFLICT, "BRAND_ALREADY_EXISTS", ex.getMessage(), req.getRequestURI(), null);
@@ -51,7 +50,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleBrandNotFound(BrandNotFoundException ex, HttpServletRequest req) {
         return build(HttpStatus.NOT_FOUND, "BRAND_NOT_FOUND", ex.getMessage(), req.getRequestURI(), null);
     }
-    //CATEGORY
+
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleBrandExists(CategoryAlreadyExistsException ex, HttpServletRequest req) {
         return build(HttpStatus.CONFLICT, "CATEGORY_ALREADY_EXISTS", ex.getMessage(), req.getRequestURI(), null);
@@ -62,7 +61,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.NOT_FOUND, "CATEGORY_NOT_FOUND", ex.getMessage(), req.getRequestURI(), null);
     }
 
-    // --- VALIDACIONES ---
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
         Map<String, Object> details = new HashMap<>();
@@ -88,7 +86,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "MALFORMED_JSON", "Malformed JSON or invalid body", req.getRequestURI(), null);
     }
 
-    // --- CONCURRENCIA / BD ---
     @ExceptionHandler(OptimisticLockException.class)
     public ResponseEntity<ApiError> handleOptimistic(OptimisticLockException ex, HttpServletRequest req) {
         return build(HttpStatus.CONFLICT, "CONCURRENCY_CONFLICT", "Resource was modified concurrently", req.getRequestURI(), null);
@@ -99,7 +96,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.CONFLICT, "DATA_INTEGRITY_ERROR", "Data integrity violation", req.getRequestURI(), null);
     }
 
-    // --- FALLBACK ---
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAll(Exception ex, HttpServletRequest req) {
         log.error("Unhandled error", ex);

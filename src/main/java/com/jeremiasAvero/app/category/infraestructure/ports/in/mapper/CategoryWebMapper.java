@@ -26,7 +26,6 @@ public class CategoryWebMapper {
                 : categories.stream().filter(Objects::nonNull).map(this::toResponseDto).toList();
     }
 
-    // Domain Page -> DTO Page
     public Page<CategoryResponseDto> toResponsePage(Page<CategoryEntity> page) {
         return page.map(this::toResponseDto);
     }

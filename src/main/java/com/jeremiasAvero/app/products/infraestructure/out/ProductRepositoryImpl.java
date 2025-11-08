@@ -5,6 +5,7 @@ import com.jeremiasAvero.app.products.domain.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +45,12 @@ public class ProductRepositoryImpl implements ProductRepository {
         repository.deleteById(id);
     }
 
-	@Override
+    @Override
+    public List<ProductEntity> findAllById(Set<Long> productIds) {
+        return   repository.findAllById(productIds);
+    }
+
+    @Override
 	public Page<ProductEntity> findAllPageable(Pageable pageable) {
 		return repository.findAll(pageable);
 	}

@@ -42,7 +42,6 @@ public class SpringBrandRepository implements BrandRepository {
 
 	@Override
 	public Optional<BrandEntity> findByName(String name) {
-		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
 

@@ -46,10 +46,10 @@ public class AuthService {
 
   public String login(LoginRequest req) {
     var authToken = new UsernamePasswordAuthenticationToken(req.email(), req.password());
-    authManager.authenticate(authToken); // throws if invalid
-    // Load to include authorities in token
+    authManager.authenticate(authToken);
+
     UserDetails ud = org.springframework.security.core.userdetails.User
-        .withUsername(req.email()).password("N/A").roles("USER").build(); // role will be reloaded via filter anyway
+        .withUsername(req.email()).password("N/A").roles("USER").build();
     return jwt.generateToken(ud);
   }
 }

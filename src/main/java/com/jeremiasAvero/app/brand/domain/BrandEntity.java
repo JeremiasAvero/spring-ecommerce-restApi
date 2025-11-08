@@ -20,7 +20,6 @@ public class BrandEntity {
 
     public BrandEntity(){}
 
-    //GETTER, SETTER
     public String getName(){
         return this.name;
     }

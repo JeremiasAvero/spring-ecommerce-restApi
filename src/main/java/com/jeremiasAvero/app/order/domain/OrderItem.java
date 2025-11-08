@@ -18,7 +18,6 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
 
-    /** Snapshot del producto al momento de la compra */
     private Long productId;
 
     @Column(length = 160)

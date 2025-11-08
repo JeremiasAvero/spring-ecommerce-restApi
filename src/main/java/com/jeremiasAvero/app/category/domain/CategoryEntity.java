@@ -19,7 +19,6 @@ public class CategoryEntity {
     private List<ProductEntity> product = new ArrayList<>();
 
     public CategoryEntity(){}
-    //GETTER, SETTER
 
     public Long getId() {
         return id;
