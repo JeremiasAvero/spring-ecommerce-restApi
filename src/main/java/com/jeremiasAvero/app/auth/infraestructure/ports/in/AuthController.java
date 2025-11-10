@@ -5,6 +5,7 @@ import com.jeremiasAvero.app.auth.infraestructure.ports.in.dto.AuthResponse;
 import com.jeremiasAvero.app.auth.infraestructure.ports.in.dto.LoginRequest;
 import com.jeremiasAvero.app.auth.infraestructure.ports.in.dto.RegisterRequest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth", description = "Registro y autenticación de usuarios")
 public class AuthController { 
 
   private final AuthService auth;

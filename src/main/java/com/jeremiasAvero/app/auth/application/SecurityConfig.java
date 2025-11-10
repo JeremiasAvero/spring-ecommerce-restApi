@@ -33,12 +33,18 @@ public class SecurityConfig {
 	      .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	      .authorizeHttpRequests(auth -> auth
 	          .requestMatchers(
-					  "/auth/**", "/actuator/health").permitAll()
+					  "/auth/**").permitAll()
 				  .requestMatchers(HttpMethod.GET,
 						  "/api/products/**",
 						  "/api/categories/**",
 						  "/api/brands/**"
 				  ).permitAll()
+				  .requestMatchers(
+						  "/v3/api-docs/**",
+						  "/swagger-ui.html",
+						  "/swagger-ui/**"
+				  ).permitAll()
+
 				  .requestMatchers(HttpMethod.POST,
 						  "/api/products/**",
 						  "/api/categories/**",
